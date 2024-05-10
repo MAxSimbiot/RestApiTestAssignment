@@ -1,0 +1,67 @@
+buildscript {
+	ext {
+		springBootVer = "3.1.3"
+		springDependencyVer = "1.1.3"
+		spotlessVer = "6.21.0"
+	}
+}
+
+
+plugins {
+	id "java"
+	id "idea"
+	id "org.springframework.boot" version "${springBootVer}"
+	id "io.spring.dependency-management" version "${springDependencyVer}"
+	id "com.diffplug.spotless" version "${spotlessVer}"
+}
+
+spotless {
+	java {
+		googleJavaFormat()
+		removeUnusedImports()
+	}
+}
+
+group = "com.sokil"
+version = "0.0.1"
+
+java {
+	sourceCompatibility = "17"
+	targetCompatibility = "17"
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	mapstructVersion = "1.5.5.Final"
+}
+
+dependencies {
+	implementation "org.springframework.boot:spring-boot-starter-web"
+	implementation "org.springframework.boot:spring-boot-starter-validation"
+	testImplementation 'junit:junit:4.13.1'
+	testImplementation 'junit:junit:4.13.1'
+
+	compileOnly "org.projectlombok:lombok"
+	annotationProcessor "org.projectlombok:lombok"
+
+	implementation("org.mapstruct:mapstruct:${mapstructVersion}")
+	annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}")
+
+	testImplementation "org.springframework.boot:spring-boot-starter-test"
+	testImplementation "org.mockito:mockito-core"
+	testCompileOnly "org.projectlombok:lombok"
+	testAnnotationProcessor "org.projectlombok:lombok"
+}
+
+tasks.named("test") {
+	useJUnitPlatform()
+}
